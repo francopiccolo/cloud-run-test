@@ -7,6 +7,8 @@ on:
   
 env:
   PROJECT_ID: manu-twitter-bot
+  SERVICE_NAME: twitter-bot
+  IMAGE_NAME: cloud-run
 
 jobs:
   setup-build-publish-deploy:
@@ -38,13 +40,13 @@ jobs:
         echo "${{ secrets.CONFIG }}" > config/config.ini
 
     - name: Build
-      run: docker build --tag "us-east1-docker.pkg.dev/$PROJECT_ID/$GCE_INSTANCE/bot:$GITHUB_SHA" .
+      run: docker build --tag "us-east1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA" .
 
     - name: Push
-      run: docker push "us-east1-docker.pkg.dev/$PROJECT_ID/$GCE_INSTANCE/bot:$GITHUB_SHA"
+      run: docker push "us-east1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA"
 
     - id: 'Deploy'
       uses: 'google-github-actions/deploy-cloudrun@v0'
       with:
         service: 'hello-cloud-run'
-        image: "us-east1-docker.pkg.dev/$PROJECT_ID/$GCE_INSTANCE/bot:$GITHUB_SHA"
+        image: "us-east1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA"
