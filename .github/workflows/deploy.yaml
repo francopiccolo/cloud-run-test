@@ -45,8 +45,8 @@ jobs:
     - name: Push
       run: docker push "us-east1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA"
 
-    - id: 'Deploy'
-      uses: 'google-github-actions/deploy-cloudrun@v0'
+    - id: Deploy
+      uses: google-github-actions/deploy-cloudrun@v0
       with:
-        service: 'hello-cloud-run'
-        image: "us-east1-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA"
+        service: hello-cloud-run
+        image: "us-east1-docker.pkg.dev/ ${{ env.PROJECT_ID }}/${{ SERVICE_NAME }}/${{ SERVICE_NAME }}:${{ GITHUB_SHA }}"
